@@ -1,1 +1,1 @@
-This is an AI conversion from and ESPHome customponent to an external component 
+This is an AI conversion from an ESPHome customponent to an external component 
