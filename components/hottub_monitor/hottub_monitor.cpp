@@ -151,18 +151,13 @@ ESP_LOGD(TAG, "ADC raw=%d", AverageReading);
   if ((AverageReading > TemperatureLookup_[TEMP_LOOKUP_SIZE - 1][TEMP_LOOKUP_ADVALUES]) ||
       (AverageReading < TemperatureLookup_[0][TEMP_LOOKUP_ADVALUES])) {
     // out of range -> clamp to highest value to prevent heater enabling
-    //DEBUG AverageReading = TemperatureLookup_[TEMP_LOOKUP_SIZE - 1][TEMP_LOOKUP_ADVALUES];
+    AverageReading = TemperatureLookup_[TEMP_LOOKUP_SIZE - 1][TEMP_LOOKUP_ADVALUES];
     ESP_LOGD(TAG, "Temp out of range (clamped)");
   }
 
   // lookup table: start from end for efficiency (as your comment says)
   for (int i = (TEMP_LOOKUP_SIZE - 1); i >= 0; i--) {
-    if (AverageReading < TemperatureLookup_[i][TEMP_LOOKUP_ADVALUES]) {
-      // avoid i-1 underflow
-      //if (i == 0) {
-      // RawMeasuredTemp_ = TemperatureLookup_[0][TEMP_LOOKUP_TEMPERATURE];
-      //  return;
-     // }
+    if (AverageReading > TemperatureLookup_[i][TEMP_LOOKUP_ADVALUES]) {
 
       midpoint = TemperatureLookup_[i][TEMP_LOOKUP_ADVALUES] -
                  ((TemperatureLookup_[i][TEMP_LOOKUP_ADVALUES] -
