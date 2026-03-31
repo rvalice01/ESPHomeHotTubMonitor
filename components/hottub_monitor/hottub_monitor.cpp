@@ -46,8 +46,7 @@ void HotTubMonitor::setup() {
   register_service(&HotTubMonitor::On_Reset_Button, "Reset_Button");
 
   // HA value
-  subscribe_homeassistant_state(&HotTubMonitor::on_commanded_debug,
-                               "input_boolean.pedestrian_walk_2");
+  subscribe_homeassistant_state(&HotTubMonitor::on_commanded_debug, "input_number.hot_tub_debug");
 
   MonitorState_ = MONITOR_STATE_INIT;
 
