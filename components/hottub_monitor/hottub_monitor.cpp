@@ -1,5 +1,5 @@
 #include "hottub_monitor.h"
-
+#include "hottub_monitor_sensors.h"
 #include "esphome/core/log.h"
 #include "Arduino.h"
 
