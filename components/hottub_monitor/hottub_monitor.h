@@ -50,7 +50,7 @@ class HotTubMonitor : public Component, public api::CustomAPIDevice {
   void LightsCycle();
 
   // data tables / state variables (moved from file-scope in your header)
-  int LightArray_[MAX_COLOR][3] = {
+  int LightArray_[HT_MAX_COLOR][3] = {
       {0, 0, 255},     /*blue*/
       {147, 0, 212},   /*violet*/
       {255, 0, 0},     /*red*/

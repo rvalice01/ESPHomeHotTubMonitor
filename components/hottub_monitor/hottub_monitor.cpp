@@ -104,7 +104,7 @@ void HotTubMonitor::Check_Main_Temperature() {
     // Set error
     ErrorMessages = (ErrorMessages | ERR_OVERTEMP);
     MonitorState_ = MONITOR_STATE_ERROR;
-    LightsSetSolidColor(RED);
+    LightsSetSolidColor(HT_RED);
   }
 }
 
@@ -209,7 +209,7 @@ void HotTubMonitor::Light_State_Machine() {
       break;
 
     default:
-      LightsSetSolidColor(RED);
+      LightsSetSolidColor(HT_RED);
       break;
   }
 }
@@ -275,13 +275,13 @@ void HotTubMonitor::Check_Hearbeat() {
       (ToggleLowCounter >= HEARTBEAT_MAX_CYCLES)) {
     ErrorMessages = (ErrorMessages | ERR_HEARTBEAT_STUCK);
     MonitorState_ = MONITOR_STATE_ERROR;
-    LightsSetSolidColor(RED);
+    LightsSetSolidColor(HT_RED);
   }
 
   if (ToggleErrorCounter_ >= HEARTBEAT_MAX_CYCLES) {
     ErrorMessages = (ErrorMessages | ERR_HEARTBEAT_TIMING);
     MonitorState_ = MONITOR_STATE_ERROR;
-    LightsSetSolidColor(RED);
+    LightsSetSolidColor(HT_RED);
   }
 
   PreviousPinStatus = PinStatus;
@@ -291,7 +291,7 @@ void HotTubMonitor::On_Light_Button() {
   if (LightState == HT_LIGHTS_OFF) {
     LightState = HT_LIGHTS_CYCLE;
   } else if (LightState == HT_LIGHTS_CYCLE) {
-    LightState = BLUE;
+    LightState = HT_BLUE;
   } else if (LightState < HT_MAX_COLOR) {
     LightState++;
   }
