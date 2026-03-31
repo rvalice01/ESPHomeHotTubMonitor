@@ -1,6 +1,7 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import sensor
+from esphome.const import CONF_ID  # <-- add this
 
 from . import HotTubMonitor, hottub_ns
 
@@ -37,18 +38,18 @@ async def to_code(config):
 
     if CONF_ERROR_MESSAGES in config:
         sens = await sensor.new_sensor(config[CONF_ERROR_MESSAGES])
-        wrapper = cg.new_Pvariable(config[CONF_ERROR_MESSAGES][cg.CONF_ID], parent, UPDATE_MS)
+        wrapper = cg.new_Pvariable(config[CONF_ERROR_MESSAGES][CONF_ID], parent, UPDATE_MS)
         cg.add(wrapper.set_sensor(sens))
         await cg.register_component(wrapper, config[CONF_ERROR_MESSAGES])
 
     if CONF_MEASURED_TEMPERATURE in config:
         sens = await sensor.new_sensor(config[CONF_MEASURED_TEMPERATURE])
-        wrapper = cg.new_Pvariable(config[CONF_MEASURED_TEMPERATURE][cg.CONF_ID], parent, UPDATE_MS)
+        wrapper = cg.new_Pvariable(config[CONF_MEASURED_TEMPERATURE][CONF_ID], parent, UPDATE_MS)
         cg.add(wrapper.set_sensor(sens))
         await cg.register_component(wrapper, config[CONF_MEASURED_TEMPERATURE])
 
     if CONF_LIGHT_STATUS in config:
         sens = await sensor.new_sensor(config[CONF_LIGHT_STATUS])
-        wrapper = cg.new_Pvariable(config[CONF_LIGHT_STATUS][cg.CONF_ID], parent, UPDATE_MS)
+        wrapper = cg.new_Pvariable(config[CONF_LIGHT_STATUS][CONF_ID], parent, UPDATE_MS)
         cg.add(wrapper.set_sensor(sens))
         await cg.register_component(wrapper, config[CONF_LIGHT_STATUS])
