@@ -2,7 +2,7 @@
 #include "hottub_monitor_sensors.h"
 #include "esphome/core/log.h"
 #include "Arduino.h"
-#include "esphome/components/api/api_string.h"
+//FUTURE #include "esphome/components/api/api_string.h"
 
 namespace esphome {
 namespace hottub_monitor {
@@ -315,10 +315,13 @@ void HotTubMonitor::On_Reset_Button() {
   ToggleErrorCounter_ = 0;
 }
 
-void HotTubMonitor::on_commanded_debug(esphome::api::StringRef state) {
-  // StringRef is not null-terminated; convert safely
-  std::string s(state.data(), state.size());
-  Hot_Tub_Debug_ = (bool) std::stoi(s);
+//FUTURE void HotTubMonitor::on_commanded_debug(esphome::api::StringRef state) {
+//  // StringRef is not null-terminated; convert safely
+//  std::string s(state.data(), state.size());
+//  Hot_Tub_Debug_ = (bool) std::stoi(s);
+//}
+void HotTubMonitor::on_commanded_debug(std::string state) {
+  Hot_Tub_Debug_ = (bool) std::stoi(state);
 }
 
 void HotTubMonitor::Service_Light_Button() {
