@@ -146,7 +146,7 @@ void HotTubMonitor::Read_Temperature_ADC() {
 
 void HotTubMonitor::CalculateTemp(int AverageReading) {
   int midpoint = 0;
-
+ESP_LOGD(TAG, "ADC raw=%d", AverageReading);
   // validate input range
   if ((AverageReading > TemperatureLookup_[TEMP_LOOKUP_SIZE - 1][TEMP_LOOKUP_ADVALUES]) ||
       (AverageReading < TemperatureLookup_[0][TEMP_LOOKUP_ADVALUES])) {
