@@ -30,13 +30,15 @@ void HotTubMonitor::setup() {
   pinMode(MAIN_RELAY, OUTPUT);
   pinMode(LIGHT_BUTTON, INPUT_PULLUP);
 
-  ledcSetup(PWM_R_CHANNEL, PWM_FREQUENCY, PWM_RESOLUTION);
-  ledcSetup(PWM_G_CHANNEL, PWM_FREQUENCY, PWM_RESOLUTION);
-  ledcSetup(PWM_B_CHANNEL, PWM_FREQUENCY, PWM_RESOLUTION);
+  // New Arduino-ESP32 LEDC API (works on recent cores)
+  ledcAttach(PWM_R, PWM_FREQUENCY, PWM_RESOLUTION);
+  ledcAttach(PWM_G, PWM_FREQUENCY, PWM_RESOLUTION);
+  ledcAttach(PWM_B, PWM_FREQUENCY, PWM_RESOLUTION);
 
-  ledcAttachPin(PWM_R, PWM_R_CHANNEL);
-  ledcAttachPin(PWM_G, PWM_G_CHANNEL);
-  ledcAttachPin(PWM_B, PWM_B_CHANNEL);
+  // write initial 0
+  ledcWrite(PWM_R, 0);
+  ledcWrite(PWM_G, 0);
+  ledcWrite(PWM_B, 0);
 
   // register services
   register_service(&HotTubMonitor::On_Light_Button, "Hot_Tub_Light_Button");
@@ -439,15 +441,15 @@ void HotTubMonitor::LightsCycle() {
 }
 
 void HotTubMonitor::LightsSetSolidColor(int color) {
-  ledcWrite(PWM_R_CHANNEL, LightArray_[color][ARRAY_RED]);
-  ledcWrite(PWM_G_CHANNEL, LightArray_[color][ARRAY_GREEN]);
-  ledcWrite(PWM_B_CHANNEL, LightArray_[color][ARRAY_BLUE]);
+  ledcWrite(PWM_R, LightArray_[color][ARRAY_RED]);
+  ledcWrite(PWM_G, LightArray_[color][ARRAY_GREEN]);
+  ledcWrite(PWM_B, LightArray_[color][ARRAY_BLUE]);
 }
 
 void HotTubMonitor::LightsSetRGBColor(int R, int G, int B) {
-  ledcWrite(PWM_R_CHANNEL, R);
-  ledcWrite(PWM_G_CHANNEL, G);
-  ledcWrite(PWM_B_CHANNEL, B);
+  ledcWrite(PWM_R, R);
+  ledcWrite(PWM_G, G);
+  ledcWrite(PWM_B, B);
 }
 
 }  // namespace hottub_monitor
