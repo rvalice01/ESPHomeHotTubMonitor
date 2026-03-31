@@ -72,17 +72,17 @@
 #define PWM_FREQUENCY 200
 #define PWM_RESOLUTION 8
 
-#define BLUE 0
-#define VIOLET 1
-#define RED 2
-#define AMBER 3
-#define GREEN 4
-#define AQUA 5
-#define WHITE 6
-#define PSYCHO 7
-#define MAX_COLOR 8
-#define LIGHTS_OFF 255
-#define LIGHTS_CYCLE 254
+#define HT_BLUE 0
+#define HT_VIOLET 1
+#define HT_RED 2
+#define HT_AMBER 3
+#define HT_GREEN 4
+#define HT_AQUA 5
+#define HT_WHITE 6
+#define HT_PSYCHO 7
+#define HT_MAX_COLOR 8
+#define HT_LIGHTS_OFF 255
+#define HT_LIGHTS_CYCLE 254
 
 #define ARRAY_RED 0
 #define ARRAY_GREEN 1

@@ -15,13 +15,13 @@ int Pump1State = 0;
 int Pump2State = 0;
 bool HeatingActive = false;
 int ErrorMessages = 0;
-int LightState = LIGHTS_OFF;
+int LightState = HT_LIGHTS_OFF;
 
 void HotTubMonitor::setup() {
   int RawADValue = 0;
 
   // init vars
-  LightState = LIGHTS_OFF;
+  LightState = HT_LIGHTS_OFF;
 
   // setup pins / PWM
   analogSetPinAttenuation(HIGH_LIMIT_SWITCH, ADC_11db);
@@ -184,24 +184,24 @@ void HotTubMonitor::CalculateTemp(int AverageReading) {
 
 void HotTubMonitor::Light_State_Machine() {
   switch (LightState) {
-    case LIGHTS_OFF:
+    case HT_LIGHTS_OFF:
       LightsSetRGBColor(0, 0, 0);
       LightCyclesFirstRun_ = 1;
       break;
 
-    case LIGHTS_CYCLE:
+    case HT_LIGHTS_CYCLE:
       LightsCycle();
       break;
 
-    case BLUE:
-    case VIOLET:
-    case RED:
-    case AMBER:
-    case GREEN:
-    case AQUA:
-    case WHITE:
-    case PSYCHO:
-      if (LightState == PSYCHO) {
+    case HT_BLUE:
+    case HT_VIOLET:
+    case HT_RED:
+    case HT_AMBER:
+    case HT_GREEN:
+    case HT_AQUA:
+    case HT_WHITE:
+    case HT_PSYCHO:
+      if (LightState == HT_PSYCHO) {
         LightsSetRGBColor(random(0, 255), random(0, 255), random(0, 255));
       } else {
         LightsSetSolidColor(LightState);
@@ -288,29 +288,29 @@ void HotTubMonitor::Check_Hearbeat() {
 }
 
 void HotTubMonitor::On_Light_Button() {
-  if (LightState == LIGHTS_OFF) {
-    LightState = LIGHTS_CYCLE;
-  } else if (LightState == LIGHTS_CYCLE) {
+  if (LightState == HT_LIGHTS_OFF) {
+    LightState = HT_LIGHTS_CYCLE;
+  } else if (LightState == HT_LIGHTS_CYCLE) {
     LightState = BLUE;
-  } else if (LightState < MAX_COLOR) {
+  } else if (LightState < HT_MAX_COLOR) {
     LightState++;
   }
 
-  if (LightState == MAX_COLOR) {
-    LightState = LIGHTS_OFF;
+  if (LightState == HT_MAX_COLOR) {
+    LightState = HT_LIGHTS_OFF;
   }
 
   if (LightTurnOffFlag_ == 0) {
     LightButtonTimer_ = 0;
   } else {
-    LightState = LIGHTS_OFF;
+    LightState = HT_LIGHTS_OFF;
   }
 }
 
 void HotTubMonitor::On_Reset_Button() {
   MonitorState_ = MONITOR_STATE_INIT;
   ErrorMessages = ERR_OK;
-  LightState = LIGHTS_OFF;
+  LightState = HT_LIGHTS_OFF;
   ToggleErrorCounter_ = 0;
 }
 
@@ -342,7 +342,7 @@ void HotTubMonitor::Light_Timer() {
   static long LightSecondCounter = 0;
 
   // after 5 seconds of no activity, next button push should turn off
-  if (LightState == LIGHTS_OFF) {
+  if (LightState == HT_LIGHTS_OFF) {
     LightTurnOffFlag_ = 0;
     LightButtonTimer_ = 0;
   }
@@ -350,7 +350,7 @@ void HotTubMonitor::Light_Timer() {
   if (LightButtonTimer_ >= LIGHT_BUTTON_TIMEOUT) {
     LightTurnOffFlag_ = 1;
   } else {
-    if (LightState != LIGHTS_OFF) {
+    if (LightState != HT_LIGHTS_OFF) {
       LightButtonTimer_++;
     }
   }
@@ -359,10 +359,10 @@ void HotTubMonitor::Light_Timer() {
   if (LightSecondCounter < (LIGHT_ON_TIMEOUT * SECONDS_IN_MIN * LIGHT_TASK_TIME)) {
     LightSecondCounter++;
   } else {
-    LightState = LIGHTS_OFF;
+    LightState = HT_LIGHTS_OFF;
   }
 
-  if (LightState == LIGHTS_OFF) {
+  if (LightState == HT_LIGHTS_OFF) {
     LightSecondCounter = 0;
   }
 }

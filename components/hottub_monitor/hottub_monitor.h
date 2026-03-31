@@ -61,7 +61,7 @@ class HotTubMonitor : public Component, public api::CustomAPIDevice {
       {0, 0, 0}        /*psycho*/
   };
 
-  int LightCycleOrder_[LIGHT_CYCLE_ARRAY_SIZE] = {AMBER, GREEN, AQUA, BLUE, VIOLET};
+  int LightCycleOrder_[LIGHT_CYCLE_ARRAY_SIZE] = {HT_AMBER, HT_GREEN, HT_AQUA, HT_BLUE, HT_VIOLET};
 
   // temperature lookup table (from your context; 61 rows)
   int TemperatureLookup_[TEMP_LOOKUP_SIZE][TEMP_LOOKUP_VALUES] = {
