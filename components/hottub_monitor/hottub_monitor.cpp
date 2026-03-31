@@ -151,7 +151,7 @@ ESP_LOGD(TAG, "ADC raw=%d", AverageReading);
   if ((AverageReading > TemperatureLookup_[TEMP_LOOKUP_SIZE - 1][TEMP_LOOKUP_ADVALUES]) ||
       (AverageReading < TemperatureLookup_[0][TEMP_LOOKUP_ADVALUES])) {
     // out of range -> clamp to highest value to prevent heater enabling
-    AverageReading = TemperatureLookup_[TEMP_LOOKUP_SIZE - 1][TEMP_LOOKUP_ADVALUES];
+    //DEBUG AverageReading = TemperatureLookup_[TEMP_LOOKUP_SIZE - 1][TEMP_LOOKUP_ADVALUES];
     ESP_LOGD(TAG, "Temp out of range (clamped)");
   }
 
@@ -174,7 +174,7 @@ ESP_LOGD(TAG, "ADC raw=%d", AverageReading);
       } else {
         RawMeasuredTemp_ = TemperatureLookup_[i - 1][TEMP_LOOKUP_TEMPERATURE];
       }
-      ESP_LOGD(TAG, "ADC raw=%d", RawMeasuredTemp_);
+      ESP_LOGD(TAG, "Temp=%d", RawMeasuredTemp_);
       return;
     }
   }
