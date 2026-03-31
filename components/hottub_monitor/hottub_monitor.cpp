@@ -174,6 +174,7 @@ ESP_LOGD(TAG, "ADC raw=%d", AverageReading);
       } else {
         RawMeasuredTemp_ = TemperatureLookup_[i - 1][TEMP_LOOKUP_TEMPERATURE];
       }
+      ESP_LOGD(TAG, "ADC raw=%d", RawMeasuredTemp_);
       return;
     }
   }
