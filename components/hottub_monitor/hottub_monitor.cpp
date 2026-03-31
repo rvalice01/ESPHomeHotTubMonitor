@@ -25,7 +25,7 @@ void HotTubMonitor::setup() {
   LightState = HT_LIGHTS_OFF;
 
   // setup pins / PWM
-  analogSetPinAttenuation(HIGH_LIMIT_SWITCH, ADC_12db);
+  analogSetPinAttenuation(HIGH_LIMIT_SWITCH, ADC_11db);
 
   pinMode(HEARTBEAT_INPUT, INPUT);
   pinMode(MAIN_RELAY, OUTPUT);
