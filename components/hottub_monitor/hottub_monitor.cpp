@@ -2,8 +2,6 @@
 #include "hottub_monitor_sensors.h"
 #include "esphome/core/log.h"
 #include "Arduino.h"
-#include "esp_adc/adc_oneshot.h"
-#include "esp_err.h"
 //FUTURE #include "esphome/components/api/api_string.h"
 
 namespace esphome {
@@ -20,39 +18,6 @@ bool HeatingActive = false;
 int ErrorMessages = 0;
 int LightState = HT_LIGHTS_OFF;
 
-static adc_oneshot_unit_handle_t s_adc1_handle = nullptr;
-
-static void init_adc34_once() {
-  if (s_adc1_handle != nullptr) return;
-
-  adc_oneshot_unit_init_cfg_t init_config = {};
-  init_config.unit_id = ADC_UNIT_1;
-  init_config.ulp_mode = ADC_ULP_MODE_DISABLE;
-
-  esp_err_t err = adc_oneshot_new_unit(&init_config, &s_adc1_handle);
-  if (err != ESP_OK) {
-    s_adc1_handle = nullptr;
-    return;
-  }
-
-  adc_oneshot_chan_cfg_t chan_cfg = {};
-  chan_cfg.atten = ADC_ATTEN_DB_11;         // closest to your prior ADC_11db
-  chan_cfg.bitwidth = ADC_BITWIDTH_DEFAULT; // typically 12-bit
-
-  // GPIO34 = ADC1_CHANNEL_6 on ESP32
-  adc_oneshot_config_channel(s_adc1_handle, ADC_CHANNEL_6, &chan_cfg);
-}
-
-static int read_adc34_raw() {
-  init_adc34_once();
-  if (s_adc1_handle == nullptr) return 0;
-
-  int raw = 0;
-  esp_err_t err = adc_oneshot_read(s_adc1_handle, ADC_CHANNEL_6, &raw);
-  if (err != ESP_OK) return 0;
-  return raw; // raw ADC counts (usually 0..4095)
-}
-
 void HotTubMonitor::setup() {
   int RawADValue = 0;
 
@@ -60,7 +25,7 @@ void HotTubMonitor::setup() {
   LightState = HT_LIGHTS_OFF;
 
   // setup pins / PWM
-  //old analogSetPinAttenuation(HIGH_LIMIT_SWITCH, ADC_11db);
+  analogSetPinAttenuation(HIGH_LIMIT_SWITCH, ADC_11db);
 
   pinMode(HEARTBEAT_INPUT, INPUT);
   pinMode(MAIN_RELAY, OUTPUT);
@@ -86,8 +51,7 @@ void HotTubMonitor::setup() {
   MonitorState_ = MONITOR_STATE_INIT;
 
   // initialize temperature with 1 a/d read
-  //old RawADValue = analogRead(HIGH_LIMIT_SWITCH);
-  RawADValue = read_adc34_raw();
+  RawADValue = analogRead(HIGH_LIMIT_SWITCH);
   CalculateTemp(RawADValue);
   MeasuredTemp = RawMeasuredTemp_;
 }
@@ -171,7 +135,6 @@ void HotTubMonitor::Read_Temperature_ADC() {
 
   if (counter < ADC_SAMPLES) {
     counter++;
-    //old average += analogRead(HIGH_LIMIT_SWITCH);
     average += analogRead(HIGH_LIMIT_SWITCH);
   } else {
     temp = (int) (average / ADC_SAMPLES);
