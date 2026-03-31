@@ -159,10 +159,10 @@ ESP_LOGD(TAG, "ADC raw=%d", AverageReading);
   for (int i = (TEMP_LOOKUP_SIZE - 1); i >= 0; i--) {
     if (AverageReading < TemperatureLookup_[i][TEMP_LOOKUP_ADVALUES]) {
       // avoid i-1 underflow
-      if (i == 0) {
-        RawMeasuredTemp_ = TemperatureLookup_[0][TEMP_LOOKUP_TEMPERATURE];
-        return;
-      }
+      //if (i == 0) {
+      // RawMeasuredTemp_ = TemperatureLookup_[0][TEMP_LOOKUP_TEMPERATURE];
+      //  return;
+     // }
 
       midpoint = TemperatureLookup_[i][TEMP_LOOKUP_ADVALUES] -
                  ((TemperatureLookup_[i][TEMP_LOOKUP_ADVALUES] -
