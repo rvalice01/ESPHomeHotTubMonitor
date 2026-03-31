@@ -30,7 +30,7 @@ class HotTubMonitor : public Component, public api::CustomAPIDevice {
   // services / HA callback
   void On_Light_Button();
   void On_Reset_Button();
-  void on_commanded_debug(std::string state);
+  void on_commanded_debug(esphome::api::StringRef state);
 
  protected:
   // main logic
